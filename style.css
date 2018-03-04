@@ -1,0 +1,71 @@
+body {
+  display: flex;
+  justify-content: center;
+  background: black;
+}
+
+#container {
+  width: 40vw;
+  height: 40vw;
+}
+
+#board {
+  border-radius: 5px;
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.column {
+  width: 33.33%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cell {
+  border: rgb(255, 255, 255) solid 2px;
+  background: goldenrod;
+
+  border-radius: 5px;
+  width: 100%;
+  height: 33.33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-border-top {
+  border-top: none;
+}
+.no-border-right {
+  border-right: none;
+}
+.no-border-bottom {
+  border-bottom: none;
+}
+.no-border-left {
+  border-left: none;
+}
+
+.player {
+  font-size: 10vw;
+  font-weight: 800;
+}
+
+.player-x {
+  color: rgba(119, 71, 16, 0.856);
+}
+
+.player-o {
+  color: rgba(91, 119, 16, 0.856);
+}
+
+.red {
+  background: red;
+}
+
+.blue {
+  background: blue;
+}
