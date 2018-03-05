@@ -1,8 +1,9 @@
+"use strict";
 const helpers = helpersFactory();
-const viewHelper = viewHelpersFactory();
+const viewHelpers = viewHelpersFactory();
 
 var game = (function IFFE() {
-  //************************************************************************************************************* */
+  /* ======= M - O - D - E - L   ======= ======= ======= ======= ======= ======= ======= ======= */
   var model = {
     state: {
       board: [null, null, null, null, null, null, null, null, null],
@@ -20,12 +21,7 @@ var game = (function IFFE() {
     },
 
     setState: function(object) {
-      var state = model.state;
-
-      for (const key in object) {
-        state[key] = object[key];
-      }
-      model.state = state;
+      model.state = Object.assign(model.state, object);
     },
 
     makeMove: function(index) {
@@ -95,7 +91,7 @@ var game = (function IFFE() {
       this.cells.forEach(function(cell) {
         cell.addEventListener(
           "click",
-          controller.makeMove.bind(this, viewHelper.getCellIndex(cell))
+          controller.makeMove.bind(this, viewHelpers.getCellIndex(cell))
         );
       });
 
@@ -105,30 +101,7 @@ var game = (function IFFE() {
     render: function() {
       let board = model.state.board;
 
-      board.forEach(function(val, i) {
-        let cell = document.getElementById(`cell-${i}`);
-        if (val === null) {
-          cell.innerHTML = "";
-        }
-        if (val === "x") {
-          cell.innerHTML = view.playerSymbols.x;
-        }
-        if (val === "o") {
-          cell.innerHTML = view.playerSymbols.o;
-        }
-      });
-      // if (model.winner === "x") {
-      //   let cells = [...document.getElementsByClassName("cell")];
-      //   cells.forEach(function(cell) {
-      //     console.log((cell.className = cell.className += " red"));
-      //   });
-      // }
-      // if (model.winner === "o") {
-      //   let cells = [...document.getElementsByClassName("cell")];
-      //   cells.forEach(function(cell) {
-      //     console.log((cell.className = cell.className += " blue"));
-      //   });
-      // }
+      viewHelpers.renderBoard(board, this.playerSymbols);
     }
   };
 
@@ -148,11 +121,27 @@ function viewHelpersFactory() {
   }
 
   return {
+    renderBoard,
     getCellIndex,
     drawBoard
   };
 
   // ************************************************************************************************************
+  function renderBoard(board, playerSymbols) {
+    board.forEach(function(val, i) {
+      let cell = document.getElementById(`cell-${i}`);
+      if (val === null) {
+        cell.innerHTML = "";
+      }
+      if (val === "x") {
+        console.dir(this);
+        cell.innerHTML = playerSymbols.x;
+      }
+      if (val === "o") {
+        cell.innerHTML = playerSymbols.o;
+      }
+    });
+  }
 
   function getCellIndex(cell) {
     var cellIndex = cell.id.split("-")[1];
@@ -200,7 +189,8 @@ function helpersFactory() {
   }
 
   function isGameOver(state) {
-    let board = state.board;
+    let board, player1, player2;
+    board = state.board;
     player1 = state.player.x;
     player2 = state.player.o;
     return (
@@ -210,11 +200,10 @@ function helpersFactory() {
     );
   }
 
-  function getWinIndex(board, player){
-      
-  }
+  function getWinIndex(board, player) {}
 
   function isPlayerWin(board, player) {
+    let b, p;
     b = board;
     p = player;
     // check if there is a winning combo of moves in the board array
